@@ -22,14 +22,9 @@ module "keda" {
   depends_on = [module.kong]
 }
 
-module "minio" {
-  source = "./modules/minio"
-  depends_on = [module.keda]
-}
-
 module "prometheus" {
   source = "./modules/prometheus"
-  depends_on = [module.minio]
+  depends_on = [module.keda]
 }
 
 module "grafana" {
