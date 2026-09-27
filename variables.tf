@@ -50,4 +50,3 @@ variable "make_gp3_default" {
   type    = bool
   default = true
 }
-
