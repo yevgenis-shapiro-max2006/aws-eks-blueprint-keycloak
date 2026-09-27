@@ -1,8 +1,8 @@
 
-resource "kubernetes_ingress_v1" "grafana" {
+resource "kubernetes_ingress_v1" "keycloak" {
   metadata {
-    name      = "ingress-route-grafana"
-    namespace = "default"
+    name      = "ingress-route-keycloak"
+    namespace = "keycloak"
     annotations = {
       "konghq.com/strip-path" = "true"
       # Optional:
@@ -16,19 +16,19 @@ resource "kubernetes_ingress_v1" "grafana" {
     ingress_class_name = "kong"
 
     tls {
-      hosts       = ["monitor.appflex.io"]
-      secret_name = "loki-tls"
+      hosts       = ["auth.crypterio.co"]
+      secret_name = "keycloak-tls"
     }
 
     rule {
-      host = "monitor.appflex.io"
+      host = "auth.crypterio.co"
       http {
         path {
           path      = "/"
           path_type = "Prefix"
           backend {
             service {
-              name = "grafana"
+              name = "keycloak"
               port {
                 number = 80
               }
