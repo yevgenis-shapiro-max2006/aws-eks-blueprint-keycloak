@@ -3,7 +3,7 @@
 aws_region      = "eu-central-1" # \\\ eu-central-1
 cluster_name    = "eks-cluster-keycloak"
 cluster_version = "1.35"
-instance_types  = ["t3.xlarge"]
+instance_types  = ["t3.large"]  ### \\\ t3.xlarge
 node_group_desired_size = 3
 node_group_min_size     = 3
 node_group_max_size     = 7
