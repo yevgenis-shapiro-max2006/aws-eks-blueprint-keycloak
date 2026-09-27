@@ -1,4 +1,4 @@
-<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/2c336c4a-b668-4264-8883-b957de7723e9" />
+<img width="1400" height="770" alt="image" src="https://github.com/user-attachments/assets/784bbdcd-17a4-4d9a-97b6-870728bf3f89" />
 
 
 ## AWS | EKS Keycloak
