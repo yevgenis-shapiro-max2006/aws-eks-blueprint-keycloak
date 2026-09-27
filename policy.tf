@@ -73,4 +73,3 @@ resource "kubernetes_storage_class_v1" "gp3" {
     fsType = "ext4"
   }
 }
-
