@@ -1,18 +1,33 @@
 
+locals {
+  keycloak_namespace = "keycloak"
+
+  keycloak = {
+    admin_user     = "admin"
+    admin_password = "admin"
+
+    db_host     = "dev.c3433333fb2.eu-west-2.rds.amazonaws.com"
+    db_port     = 5432
+    db_user     = "keycloak"
+    db_name     = "keycloak"
+    db_password = "keycloak"
+
+    hostname = "auth.appflex.io"
+  }
+}
+
 resource "kubernetes_namespace_v1" "keycloak" {
   metadata {
-    name = "keycloak"
+    name = local.keycloak_namespace
   }
 }
 
 resource "helm_release" "keycloak" {
   name       = "keycloak"
   namespace  = kubernetes_namespace_v1.keycloak.metadata[0].name
+
   repository = "oci://registry-1.docker.io/bitnamicharts"
   chart      = "keycloak"
-
-  # Optional: pin the chart version after checking available versions
-  # version = "..."
 
   timeout         = 1200
   wait            = true
@@ -22,8 +37,8 @@ resource "helm_release" "keycloak" {
   values = [
     yamlencode({
       auth = {
-        adminUser     = "admin"
-        adminPassword = var.keycloak_admin_password
+        adminUser     = local.keycloak.admin_user
+        adminPassword = local.keycloak.admin_password
       }
 
       image = {
@@ -36,16 +51,16 @@ resource "helm_release" "keycloak" {
       }
 
       externalDatabase = {
-        host     = var.keycloak_db_host
-        port     = 5432
-        user     = var.keycloak_db_user
-        database = var.keycloak_db_name
-        password = var.keycloak_db_password
+        host     = local.keycloak.db_host
+        port     = local.keycloak.db_port
+        user     = local.keycloak.db_user
+        database = local.keycloak.db_name
+        password = local.keycloak.db_password
       }
 
       proxyHeaders = "xforwarded"
 
-      hostname = "auth.appflex.io"
+      hostname = local.keycloak.hostname
     })
   ]
 
