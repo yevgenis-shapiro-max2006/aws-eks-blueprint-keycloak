@@ -38,13 +38,13 @@ module "grafana" {
 }
 
 module "keycloak" {
-  source = "./modules/sonarqube"
+  source = "./modules/keycloak"
   depends_on = [module.grafana]
 }
 
 module "ingress" {
   source = "./modules/ingress"
-  depends_on = [module.sonarqube]
+  depends_on = [module.keycloak]
 }
 
 
