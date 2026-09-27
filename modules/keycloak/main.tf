@@ -6,13 +6,11 @@ locals {
     admin_user     = "admin"
     admin_password = "admin"
 
-    db_host     = "dev.c3433333fb2.eu-west-2.rds.amazonaws.com"
-    db_port     = 5432
     db_user     = "keycloak"
-    db_name     = "keycloak"
     db_password = "keycloak"
+    db_name     = "keycloak"
 
-    hostname = "auth.appflex.io"
+    hostname = "auth.crypterio.co"
   }
 }
 
@@ -46,21 +44,40 @@ resource "helm_release" "keycloak" {
         tag        = "26.3.3-debian-12-r0"
       }
 
-      postgresql = {
-        enabled = false
-      }
-
-      externalDatabase = {
-        host     = local.keycloak.db_host
-        port     = local.keycloak.db_port
-        user     = local.keycloak.db_user
-        database = local.keycloak.db_name
-        password = local.keycloak.db_password
-      }
+      production  = true
+      httpEnabled = true
 
       proxyHeaders = "xforwarded"
 
-      hostname = local.keycloak.hostname
+      extraEnvVars = [
+        {
+          name  = "KC_HOSTNAME"
+          value = "https://auth.crypterio.co"
+        }
+      ]
+
+      ingress = {
+        enabled = false
+      }
+
+      postgresql = {
+        enabled = true
+
+        auth = {
+          username      = local.keycloak.db_user
+          password      = local.keycloak.db_password
+          database      = local.keycloak.db_name
+          postgresPassword = local.keycloak.db_password
+        }
+
+        primary = {
+          persistence = {
+            enabled      = true
+            storageClass = "gp3"
+            size         = "10Gi"
+          }
+        }
+      }
     })
   ]
 
