@@ -1,4 +1,5 @@
 
+
 ###  ---  Application  ---  ###
 module "httpd" {
   source = "./modules/httpd"
@@ -37,7 +38,7 @@ module "grafana" {
   depends_on = [module.prometheus]
 }
 
-module "sonarqube" {
+module "keycloak" {
   source = "./modules/sonarqube"
   depends_on = [module.grafana]
 }
