@@ -16,3 +16,4 @@ resource "helm_release" "prometheus" {
     file("${path.module}/prometheus-values.yaml")
   ]
 }
+
